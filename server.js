@@ -8,6 +8,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
+// Image generation endpoint using GPT-4o
 app.post("/generate", async (req, res) => {
   const { handle } = req.body;
   if (!handle) return res.status(400).json({ error: "No handle provided" });
@@ -47,5 +48,11 @@ The whole image has a soft, nostalgic lighting and a playful tone.
   }
 });
 
+// Serve index.html for root route
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
+});
+
+// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Server running on port", PORT));
