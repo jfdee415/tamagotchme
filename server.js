@@ -7,9 +7,12 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public")); // ✅ Serve index.html from /public
 
+// API route for generation
 app.post("/generate", async (req, res) => {
   const { handle, image_url } = req.body;
 
@@ -46,4 +49,5 @@ app.post("/generate", async (req, res) => {
   }
 });
 
+// Start server
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
