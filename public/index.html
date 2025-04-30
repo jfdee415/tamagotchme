@@ -25,8 +25,11 @@
       })
       .then(res => res.json())
       .then(data => {
-        if (data.image) {
-          document.getElementById("output").src = data.image;
+      if (data.prompt && data.image_url) {
+  document.getElementById("output").src = data.image_url;
+  console.log("🧠 Prompt:", data.prompt); // Optional: show it somewhere
+}
+
         } else {
           alert("Image generation failed.");
           console.log(data);
