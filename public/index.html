@@ -11,13 +11,14 @@
 <body>
   <h1>Tamagotchi Generator</h1>
   <p>Enter your Twitter handle:</p>
-  <input id="handle" placeholder="e.g. untaxxable" />
+  <input id="handle" placeholder="e.g. @untaxxable" />
   <button onclick="generate()">Generate</button>
   <div><img id="output" /></div>
+  <p id="prompt"></p>
 
   <script>
     function generate() {
-      const handle = document.getElementById("handle").value;
+      let handle = document.getElementById("handle").value.trim().replace(/^@/, "");
       fetch("/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -25,11 +26,9 @@
       })
       .then(res => res.json())
       .then(data => {
-      if (data.prompt && data.image_url) {
-  document.getElementById("output").src = data.image_url;
-  console.log("🧠 Prompt:", data.prompt); // Optional: show it somewhere
-}
-
+        if (data.image_url) {
+          document.getElementById("output").src = data.image_url;
+          document.getElementById("prompt").innerText = data.prompt;
         } else {
           alert("Image generation failed.");
           console.log(data);
