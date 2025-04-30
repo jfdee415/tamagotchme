@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tamagotchi Generator</title>
+  <style>
+    body { font-family: Arial; text-align: center; margin-top: 50px; background: #f0f0f0; }
+    input, button { padding: 10px; font-size: 16px; }
+    img { margin-top: 20px; width: 250px; height: auto; }
+  </style>
+</head>
+<body>
+  <h1>Tamagotchi Generator</h1>
+  <p>Enter your Twitter handle:</p>
+  <input id="handle" placeholder="e.g. untaxxable" />
+  <button onclick="generate()">Generate</button>
+  <div><img id="output" /></div>
+
+  <script>
+    function generate() {
+      const handle = document.getElementById("handle").value;
+      fetch("/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ handle })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.image) {
+          document.getElementById("output").src = data.image;
+        } else {
+          alert("Image generation failed.");
+          console.log(data);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Something went wrong.");
+      });
+    }
+  </script>
+</body>
+</html>
